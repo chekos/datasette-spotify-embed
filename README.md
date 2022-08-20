@@ -5,7 +5,7 @@
 [![Tests](https://github.com/chekos/datasette-spotify-embed/workflows/Test/badge.svg)](https://github.com/chekos/datasette-spotify-embed/actions?query=workflow%3ATest)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/chekos/datasette-spotify-embed/blob/main/LICENSE)
 
-Turn Spotify track links into iframe embeds in the Datasette interface
+Turn Spotify track URIs into iframe embeds in the Datasette interface
 
 ## Installation
 
