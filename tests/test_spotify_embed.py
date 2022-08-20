@@ -1,11 +1,38 @@
 from datasette.app import Datasette
 import pytest
-
+import sqlite_utils
 
 @pytest.mark.asyncio
-async def test_plugin_is_installed():
+@pytest.mark.parametrize(
+    "value,expect_audio",
+    (
+        (1, False),
+        (1.2, False),
+        (None, False),
+        ("dog", False),
+        ("track:uri:108", False),
+        ("spotify:track:13508703-", True),
+        ("spotify:track:jkavusdbvafbasdu", True),
+        ("spotify:track:10814801038ndvaodn", True),
+    ),
+)
+async def test_mp3_audio(value, expect_audio):
     datasette = Datasette(memory=True)
-    response = await datasette.client.get("/-/plugins.json")
+    db = datasette.add_memory_database("test")
+
+    def setup(conn):
+        sqlite_utils.Database(conn)["demo"].insert({"value": value})
+
+    await db.execute_write_fn(setup, block=True)
+
+    response = await datasette.client.get("/test/demo")
     assert response.status_code == 200
-    installed_plugins = {p["name"] for p in response.json()}
-    assert "datasette-spotify-embed" in installed_plugins
+    html = response.text
+    if expect_audio:
+        assert (
+            f'<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{value.split(":")[-1]}?theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>' in html
+        )
+    else:
+        assert "<iframe " not in html
+
+        
