@@ -27,12 +27,12 @@ setup(
     license="Apache License, Version 2.0",
     classifiers=[
         "Framework :: Datasette",
-        "License :: OSI Approved :: Apache Software License"
+        "License :: OSI Approved :: Apache Software License",
     ],
     version=VERSION,
     packages=["datasette_spotify_embed"],
     entry_points={"datasette": ["spotify_embed = datasette_spotify_embed"]},
     install_requires=["datasette"],
-    extras_require={"test": ["pytest", "pytest-asyncio"]},
+    extras_require={"test": ["pytest", "pytest-asyncio", "sqlite-utils"]},
     python_requires=">=3.7",
 )
