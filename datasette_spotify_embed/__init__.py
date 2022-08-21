@@ -1,5 +1,5 @@
 from datasette import hookimpl
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 
 @hookimpl
@@ -7,7 +7,7 @@ def render_cell(value):
     if not isinstance(value, str):
         return
     if value.startswith("spotify:track:"):
-        uri = value.split(":")[-1]
+        uri = escape(value.split(":")[-1])
         iframe = (
             f'<iframe style="border-radius:12px" '
             f'src="https://open.spotify.com/embed/track/{uri}?theme=0" '
