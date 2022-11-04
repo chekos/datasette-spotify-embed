@@ -35,4 +35,11 @@ setup(
     install_requires=["datasette"],
     extras_require={"test": ["pytest", "pytest-asyncio", "sqlite-utils"]},
     python_requires=">=3.7",
+    package_data = (
+        {
+            "datasette_spotify_embed": [
+                "static/datasette-spotify-embed.css",
+            ],
+        },
+    )
 )

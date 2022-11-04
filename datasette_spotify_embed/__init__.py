@@ -1,6 +1,9 @@
 from datasette import hookimpl
 from markupsafe import Markup, escape
 
+@hookimpl
+def extra_css_urls(datasette):
+    return ["/-/static-plugins/datasette-spotify-embed/datasette-spotify-embed.css"]
 
 @hookimpl
 def render_cell(value):
