@@ -3,8 +3,14 @@ from markupsafe import Markup, escape
 
 
 @hookimpl
-def extra_css_urls():
-    return ["/-/static-plugins/datasette-spotify-embed/datasette-spotify-embed.css"]
+def extra_css_urls(columns, datasette):
+    if not columns:
+        return None
+    return [
+        datasette.urls.static_plugins(
+            "datasette-spotify-embed", "datasette-spotify-embed.css"
+        )
+    ]
 
 
 @hookimpl
